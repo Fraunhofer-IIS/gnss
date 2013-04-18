@@ -4,6 +4,7 @@ BASE_URL   = http://www.rtklib.com/prog
 BUILD_DIR  = build
 SOURCE_DIR = src
 BIN_DIR    = bin
+INC_DIR    = include
 
 ########
 ## Install from tarball
@@ -40,6 +41,8 @@ installed: built
 	ln -f $(SOURCE_DIR)/app/rnx2rtkp/gcc/rnx2rtkp $(BIN_DIR)
 	ln -f $(SOURCE_DIR)/app/convbin/gcc/convbin $(BIN_DIR)
 	ln -f $(SOURCE_DIR)/app/rtkrcv/gcc/rtkrcv $(BIN_DIR)
+	mkdir -p $(INC_DIR)/rtklib
+	ln -f $(SOURCE_DIR)/src/rtklib.h $(INC_DIR)/rtklib
 	touch installed
 
 clean:
@@ -50,4 +53,5 @@ clean:
 wipe: clean
 	$(RM) -r $(BUILD_DIR)
 	$(RM) -r $(BIN_DIR)
+	$(RM) -r $(INC_DIR)
 

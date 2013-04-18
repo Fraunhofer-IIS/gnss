@@ -15,4 +15,7 @@
   <depend package="rospy"/>
   <depend package="geometry_msgs"/>
   <depend package="tf"/>
+  <export>
+    <cpp cflags="-I${prefix}/include"/>
+  </export>
 </package>
