@@ -1,0 +1,15 @@
+<package>
+  <description brief="rtklib">
+
+     A meta-package that downloads and installs Tomoji Takasu's RTKLIB locally.
+     Patches from the website are applied.
+     More about RTKLIB: http://www.rtklib.com/
+
+  </description>
+  <author>Manuel Stahl</author>
+  <license>GPLv3</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/rtklib</url>
+  <logo>http://www.rtklib.com/rtklib.jpg</logo>
+
+</package>
