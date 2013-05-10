@@ -12,4 +12,7 @@
   <url>http://ros.org/wiki/rtklib</url>
   <logo>http://www.rtklib.com/rtklib.jpg</logo>
 
+  <depend package="rospy"/>
+  <depend package="geometry_msgs"/>
+  <depend package="tf"/>
 </package>
