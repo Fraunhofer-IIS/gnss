@@ -101,8 +101,7 @@ if __name__ == "__main__":
                 trans_gps = (float(fields[2]), float(fields[3]), float(fields[4]))
                 trans_corr = (trans_gps[0] - trans[0], trans_gps[1] - trans[1], trans_gps[2] - trans[2])
                 rot = (0.0, 0.0, 0.0, 1.0)
-
-            tfpub.sendTransform(trans_corr, rot, rospy.get_rostime(), odom_frame_id, global_frame_id)
+                tfpub.sendTransform(trans_corr, rot, rospy.get_rostime(), odom_frame_id, global_frame_id)
 
     except rospy.ROSInterruptException:
         sock.close()
