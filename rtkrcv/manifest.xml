@@ -1,0 +1,19 @@
+<package>
+  <description brief="rtkrcv">
+
+     GNSS RTK receiver node
+
+  </description>
+  <author>Manuel Stahl</author>
+  <license>GPLv3</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/rtkrcv</url>
+
+  <depend package="rtklib"/>
+  <depend package="roscpp"/>
+  <depend package="roslib"/>
+  <depend package="sensor_msgs"/>
+  <rosdep name="liblapack-dev"/>
+  <rosdep name="libblas-dev"/>
+
+</package>
