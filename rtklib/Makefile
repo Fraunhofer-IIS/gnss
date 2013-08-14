@@ -1,3 +1,5 @@
+include $(shell rospack find mk)/cmake.mk
+
 all: installed
 
 BASE_URL   = http://www.rtklib.com/prog

@@ -1,17 +1,19 @@
 cmake_minimum_required(VERSION 2.6)
+include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
 
-set(src ${CMAKE_CURRENT_SOURCE_DIR}/src/src)
+rosbuild_init()
 
-find_package(LAPACK OPTIONAL)
-find_package(BLAS OPTIONAL)
+find_package(LAPACK)
+find_package(BLAS)
 
-if(LAPACK_FOUND and BLAS_FOUND)
+if(${LAPACK_FOUND} and ${BLAS_FOUND})
     add_definitions(-DLAPACK)
 endif()
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/rtklib)
 
-add_library(rtk STATIC
+set(src ${CMAKE_CURRENT_SOURCE_DIR}/src/src)
+rosbuild_add_library(rtk
   ${src}/rtksvr.c
   ${src}/rtkcmn.c
   ${src}/rtkpos.c
