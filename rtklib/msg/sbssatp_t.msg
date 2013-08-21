@@ -1,6 +1,5 @@
 # SBAS satellite correction type
 
-int32 sat  			# satellite number
-
-sbsfcorr_t fcorr    # fast correction 
-sbslcorr_t lcorr   	# long term correction
+int32 sat                                   # satellite number
+SbasFastCorrection fcorr                    # fast correction 
+SbasLongTermErrorCorrection lcorr           # long term correction
