@@ -26,5 +26,5 @@ ssr_t[] ssr                         # SSR corrections
 QzssEphemeris[] lexeph              # LEX ephemeris
 QzssIonosphereCorrection lexion     # LEX ionosphere correction
 
-lam[] lamcwl                        # carrier wave lengths (m) 
+lam[] lamcwl                        # carrier wave lengths (m)
 cbias[] codebias                    # code bias (0:p1-p2,1:p1-c1,2:p2-c2) (m)

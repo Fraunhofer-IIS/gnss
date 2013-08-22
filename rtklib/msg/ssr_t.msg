@@ -1,17 +1,17 @@
- # SSR correction type 
+ # SSR correction type
 
-time t0             # epoch time (GPST)  
-          
-float64 udint       # SSR update interval (s)    
+time t0             # epoch time (GPST)
 
-int32 iode          # issue of data 
-int32 ura           # URA indicator  
-int32 refd          # sat ref datum (0:ITRF,1:regional) 
+float64 udint       # SSR update interval (s)
 
-float64[3] deph     # delta orbit {radial,along,cross} (m) 
+int32 iode          # issue of data
+int32 ura           # URA indicator
+int32 refd          # sat ref datum (0:ITRF,1:regional)
+
+float64[3] deph     # delta orbit {radial,along,cross} (m)
 float64[3] ddeph    # dot delta orbit {radial,along,cross} (m/s)
-float64[3] dclk     # delta clock {c0,c1,c2} (m,m/s,m/s^2) 
-float64 hrclk       # high-rate clock corection (m) 
-float32[] cbias     # code biases (m) 
+float64[3] dclk     # delta clock {c0,c1,c2} (m,m/s,m/s^2)
+float64 hrclk       # high-rate clock corection (m)
+float32[] cbias     # code biases (m)
 
 uint8 update        # update flag (0:no update,1:update)
