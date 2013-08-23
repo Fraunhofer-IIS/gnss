@@ -4,7 +4,7 @@ int32 sat              # satellite number (0:receiver)
 int8[] type            # antenna type
 int8[] code            # serial number or satellite code
 
-time ts	               # valid time start
+time ts                # valid time start
 time te                # valid time end
 
 #float64[][3] off      # phase center offset e/n/u or x/y/z (m)
