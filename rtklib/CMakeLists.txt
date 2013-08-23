@@ -6,9 +6,9 @@ rosbuild_init()
 find_package(LAPACK)
 find_package(BLAS)
 
-if(${LAPACK_FOUND} and ${BLAS_FOUND})
+#if(${LAPACK_FOUND} and ${BLAS_FOUND})
     add_definitions(-DLAPACK)
-endif()
+#endif()
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/rtklib)
 
