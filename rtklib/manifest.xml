@@ -13,6 +13,7 @@
   <logo>http://www.rtklib.com/rtklib.jpg</logo>
 
   <depend package="rospy"/>
+  <depend package="std_msgs"/>
   <depend package="geometry_msgs"/>
   <depend package="tf"/>
   <rosdep name="liblapack-dev"/>
