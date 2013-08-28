@@ -21,7 +21,7 @@ int32 leaps                         # leap seconds (s)
 AntennaParameter[] pcvs             # satellite antenna pcv
 sbssat_t sbssat                     # SBAS satellite corrections
 sbsion_t[] sbsion                   # SBAS ionosphere corrections
-DifferentialGnss[] dgps_t           # DGPS corrections
+DifferentialGnss[] dgps             # DGPS corrections
 ssr_t[] ssr                         # SSR corrections
 QzssEphemeris[] lexeph              # LEX ephemeris
 QzssIonosphereCorrection lexion     # LEX ionosphere correction
