@@ -1,12 +1,12 @@
 # navigation data type
 
-eph_t[] eph                         # GPS/QZS/GAL ephemeris
-geph_t[] geph                       # GLONASS ephemeris
-seph_t[] seph                       # SBAS ephemeris
-peph_t[] peph                       # precise ephemeris
-pclk_t[] pclk                       # precise clock
-alm_t[] alm                         # almanac data
-tec_t[] tec                         # TEC grid data
+Ephemeris[] eph                         # GPS/QZS/GAL ephemeris
+GlonassEphemeris[] geph                       # GLONASS ephemeris
+SbasEphemeris[] seph                       # SBAS ephemeris
+PreciseEphemeris[] peph                       # precise ephemeris
+PreciseClock[] pclk                       # precise clock
+Almanac[] alm                         # almanac data
+TotalElectronContent[] tec                         # TEC grid data
 gtec_t[] gtec                       # G_TEC grid data
 
 float64[4] utc_gps                  # GPS delta-UTC parameters {A0,A1,T,W}
