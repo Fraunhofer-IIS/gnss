@@ -14,4 +14,4 @@ geometry_msgs/Vector3  jerk          # satellite jerk (m/s3)
 float64 af0                          # satellite clock bias
 float64 af1                          # satellite clock drift (s,s/s)
 float64 tgd                          # TGD
-float64[] isc                       # ISC
+float64[] isc                        # ISC
