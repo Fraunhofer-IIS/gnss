@@ -30,8 +30,10 @@ rosbuild_find_ros_package(rtklib)
 include_directories(${rtklib_PACKAGE_PATH}/include)
 find_library(LIBRTK NAMES rtk PATHS ${rtklib_PACKAGE_PATH}/lib)
 message(${LIBRTK})
+
 rosbuild_add_executable(${PROJECT_NAME}
-                       src/main.cpp
                        src/ros_options.cpp
-                       src/rtkrcv.cpp)
+                       src/rtkrcv.cpp
+                       src/main_aisehe.cpp
+                      )
 target_link_libraries(${PROJECT_NAME} ${LIBRTK})

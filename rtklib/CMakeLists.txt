@@ -10,11 +10,23 @@ find_package(BLAS)
     add_definitions(-DLAPACK)
 #endif()
 
+rosbuild_genmsg()
+
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/rtklib)
+rosbuild_find_ros_package(rtklib)
 
 set(src ${CMAKE_CURRENT_SOURCE_DIR}/src/src)
 rosbuild_add_library(rtk
   ${src}/rtksvr.c
+  ${src}/convkml.c
+  ${src}/datum.c
+  ${src}/download.c
+  ${src}/postpos.c
+  ${src}/ppp_ar.c
+  ${src}/qzslex.c
+  ${src}/rtcm3e.c
+  ${src}/streamsvr.c
+  ${src}/tle.c
   ${src}/rtkcmn.c
   ${src}/rtkpos.c
   ${src}/geoid.c
@@ -24,6 +36,8 @@ rosbuild_add_library(rtk
   ${src}/stream.c
   ${src}/rcvraw.c
   ${src}/rtcm.c
+  ${src}/rtcm2.c
+  ${src}/rtcm3.c
   ${src}/preceph.c
   ${src}/options.c
   ${src}/pntpos.c
@@ -35,6 +49,9 @@ rosbuild_add_library(rtk
   ${src}/rcv/skytraq.c
   ${src}/rcv/gw10.c
   ${src}/rcv/javad.c
+  ${src}/rcv/binex.c
+  ${src}/rcv/nvs.c
+  ${src}/rcv/rcvlex.c
   ${src}/ephemeris.c
   ${src}/rinex.c
   ${src}/ionex.c
