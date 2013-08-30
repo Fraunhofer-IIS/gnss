@@ -29,7 +29,11 @@
 #include <errno.h>
 #include <pthread.h>
 #endif
-#include <rtklib/rtklib.h>
+#include "rtklib/rtklib.h"
+#include "rtkrcv/SatelliteObservation.h"
+#include "rtkrcv/satellite.h"
+#include "rtkrcv/satellitedata.h"
+#include <stdint.h>
 
 #define MAXSTR      1024                /* max length of a string */
 #define MAXBUFF     1024                /* max input buffer */
@@ -42,6 +46,9 @@
 #define MIN(x,y)    ((x)<(y)?(x):(y))
 #define MAX(x,y)    ((x)>(y)?(x):(y))
 #define SQRT(x)     ((x)<=0.0?0.0:sqrt(x))
+
+using namespace std; //#N
+#include <iostream>  //#N
 
 /* type definition -----------------------------------------------------------*/
 typedef struct {                        /* virtual terminal type */
@@ -183,6 +190,7 @@ static int openmoni(int port)
     trace(3,"openmomi: port=%d\n",port);
     
     sprintf(path,":%d",port);
+    
     if (!stropen(&moni,STR_TCPSVR,STR_MODE_RW,path)) return 0;
     strsettimeout(&moni,timeout,reconnect);
     keepalive=1;
@@ -354,7 +362,8 @@ static void readant(vt_t *vt, prcopt_t *opt, nav_t *nav)
     }
     else printvt(vt,"antenna file open error %s",filopt.satantp);
     
-    free(pcvr.pcv); free(pcvs.pcv);
+    free(pcvr.pcv); 
+    free(pcvs.pcv);
 }
 /* start rtk server ----------------------------------------------------------*/
 static int startsvr(vt_t *vt)
@@ -551,17 +560,22 @@ char get_solution(double &lat, double &lon, double &height)
     int i;
     int status;
 
-    if (sol->time.time == 0 || !sol->stat) {
+//    const char *solstr[]={"------","FIX","FLOAT","SBAS","DGPS","SINGLE","PPP",""};
+    if (sol->time.time==0 || !sol->stat) {
         rtksvrunlock(&svr);
         return -1; // no fix
     }
+//        sol->time
     if (1 <= sol->stat && sol->stat <= 2) status = 0; // fix
     if (sol->stat == 3)                   status = 1; // sbas fix
     else                                  status = 2; // differential fix
 
-    if (norm(sol->rr,3) > 0.0 && norm(rb,3) > 0.0) {
-        for (i=0;i<3;i++) bl[i]=sol->rr[i]-rb[i];
+    if (norm(sol->rr,3)>0.0 && norm(rb,3)>0.0) {
+        for (i=0;i<3;i++){ 
+            bl[i]=sol->rr[i]-rb[i];
+        }   
     }
+
     len=norm(bl,3);
     Qr[0]=sol->qr[0];
     Qr[4]=sol->qr[1];
@@ -570,15 +584,88 @@ char get_solution(double &lat, double &lon, double &height)
     Qr[5]=Qr[7]=sol->qr[4];
     Qr[2]=Qr[6]=sol->qr[5];
 
-    if (norm(sol->rr,3) > 0.0) {
+    if (norm(sol->rr,3)>0.0) {
         ecef2pos(sol->rr,pos);
         covenu(pos,Qr,Qe);
-        lat = pos[0]*R2D;
         lon = pos[1]*R2D;
-        if (solopt[0].height == 1) pos[2]-=geoidh(pos); /* geodetic */
+        lat = pos[0]*R2D;
+        if (solopt[0].height==1) pos[2]-=geoidh(pos); /* geodetic */
         height = pos[2];
     }
+//        if (solflag&1) {
+//            printvt(vt," (N:%6.3f E:%6.3f U:%6.3f)",SQRT(Qe[4]),SQRT(Qe[0]),SQRT(Qe[8]));
+//        }
+//
+//        if (solflag&2) {
+//            printvt(vt," A:%4.1f R:%5.1f N:%2d",sol->age,sol->ratio,sol->ns);
+//        }
     svr.nsol=0;
     rtksvrunlock(&svr);
     return status;
 }
+
+void getSatelliteObservation(rtkrcv::SatelliteObservation &obs)
+{
+    int recv = 0; // rover
+    obsd_t *rtk_obs = svr.obs[recv][0].data;
+
+//    for (uint8_t i = 0; i < svr.obs[recv][0].n; i++)
+
+    obs.header.frame_id = "rover";
+    // TODO obs.header.stamp = rtkobs[0].time;
+    obs.sat = rtk_obs[0].sat;
+
+    obs.observations.resize(NFREQ);
+    
+    for (uint8_t freq = 0; freq < NFREQ; freq++) {
+        rtkrcv::SignalObservation &sig_obs = obs.observations[freq];
+        sig_obs.snr = rtk_obs[0].SNR[freq];
+        sig_obs.lli = rtk_obs[0].LLI[freq];
+        sig_obs.sig_code = rtk_obs[0].code[freq];
+        sig_obs.carrier_phase = rtk_obs[0].L[freq];
+        sig_obs.pseudorange = rtk_obs[0].P[freq];
+        sig_obs.doppler = rtk_obs[0].D[freq];
+    }
+}
+
+char get_satellite_data(rtkrcv::satellitedata &msg)
+{
+    rtksvrlock(&svr);
+
+    ssat_t* sat_msg = svr.rtk.ssat;
+
+    sbssatp_t* satid=svr.nav.sbssat.sat;
+    //prcopt_t* navsysone=
+
+    for(uint8_t i=0; i<MAXSAT; i++){
+        rtkrcv::satellite sat_data;
+        
+
+       // int a =(int)sat_msg[i].sys;      
+       // sys= (uint32_t)(sat_msg[i].sys);
+       // satno(sys, prn);
+       // sat_data.id= satno(sys, prn);
+       // cout<<"sys"<<sys<<endl;     
+       // sat_data.id=satid[i].sat;  
+       // sat_data.id=svr.rtk.nx;
+       // sat_data.id=satid[i].sat;
+       // sat_data.id=svr.nav.sbssat.nsat;      
+       // unsigned char sys= sat_msg[i].sys;
+       // sat_data.sys=svr.rtk.opt.navsys;
+       // sat_data.sys=(char*)sat_msg[i].sys;
+       // sat_data.sys=(int)sat_msg[i].sys;
+        
+        sat_data.vs=(int)sat_msg[i].vs;
+
+        if(sat_data.vs==1){
+            sat_data.id=i;        
+            sat_data.asimuth  = sat_msg[i].azel[0];
+            sat_data.elevation = sat_msg[i].azel[1];
+            msg.sat.push_back(sat_data);
+        }
+
+    }
+
+    rtksvrunlock(&svr);
+}
+    
