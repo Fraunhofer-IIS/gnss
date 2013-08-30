@@ -4,7 +4,7 @@ int32 sat                     # satellite number
 int32 svh                     # sv health (0:ok)
 int32 svconf                  # as and sv config
 int32 week                    # GPS/QZS: gps week, GAL: galileo week
-time toa                      # Toa
+Header toa                    # Toa
 
 # SV orbit parameters
 float64 A
