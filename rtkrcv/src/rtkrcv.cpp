@@ -1,7 +1,7 @@
 /*------------------------------------------------------------------------------
 * rtkrcv.cpp : based on rtk-gps/gnss receiver console app
 *
-*          Copyright (C) 2009-2011 by T.TAKASU, All rights reserved.
+*          Copyright (C) 2009-2013 by T.TAKASU, All rights reserved.
 *          Copyright (C) 2012      by M.STAHL, All rights reserved.
 *
 * notes   :
@@ -13,8 +13,9 @@
 *           2010/08/12 1.2  fix bug on ftp/http
 *           2011/01/22 1.3  add option misc-proxyaddr,misc-fswapmargin
 *           2011/08/19 1.4  fix bug on size of arg solopt arg for rtksvrstart()
-*           2012/11/25      use as template for ROS node
-*-----------------------------------------------------------------------------*/
+*           2012/11/25      use as template for ROS node*           2012/11/03 1.5  fix bug on setting output format
+*           2013/06/30 1.6  add "nvs" option for inpstr*-format
+*           2013/09/07      update template for ROS node*-----------------------------------------------------------------------------*/
 #ifndef WIN32
 #define _POSIX_C_SOURCE 2
 #endif
@@ -101,7 +102,7 @@ static filopt_t filopt  ={""};          /* file options */
 #define FLGOPT  "0:off,1:std+2:age/ratio/ns"
 #define ISTOPT  "0:off,1:serial,2:file,3:tcpsvr,4:tcpcli,7:ntripcli,8:ftp,9:http"
 #define OSTOPT  "0:off,1:serial,2:file,3:tcpsvr,4:tcpcli,6:ntripsvr"
-#define FMTOPT  "0:rtcm2,1:rtcm3,2:oem4,3:oem3,4:ubx,5:ss2,6:hemis,7:skytraq,8:gw10,9:javad,15:sp3"
+#define FMTOPT  "0:rtcm2,1:rtcm3,2:oem4,3:oem3,4:ubx,5:ss2,6:hemis,7:skytraq,8:gw10,9:javad,10:nvs,15:sp3"
 #define NMEOPT  "0:off,1:latlon,2:single"
 #define SOLOPT  "0:llh,1:xyz,2:enu,3:nmea"
 #define MSGOPT  "0:all,1:rover,2:base,3:corr"
@@ -420,6 +421,9 @@ static int startsvr(vt_t *vt)
         trace(2,"command exec error: %s (%d)\n",startcmd,ret);
         printvt(vt,"command exec error: %s (%d)\n",startcmd,ret);
     }
+    solopt[0].posf=strfmt[3];
+    solopt[1].posf=strfmt[4];
+    
     /* start rtk server */
     if (!rtksvrstart(&svr,svrcycle,buffsize,strtype,paths,strfmt,navmsgsel,
                      cmds,ropts,nmeacycle,nmeareq,npos,&prcopt,solopt,&moni)) {
